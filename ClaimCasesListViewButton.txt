@@ -2,6 +2,7 @@ Claim Cases List View Button
 
 /*    
      NOTES:
+     me make a note
           - Updates selected Case records owner to the current user
           - Display Type is "List Button"
           - Select Display Checkboxes (for Multi-Record Selection) option is selected
