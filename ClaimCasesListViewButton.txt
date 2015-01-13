@@ -1,0 +1,38 @@
+Claim Cases List View Button
+
+/*    
+     NOTES:
+          - Updates selected Case records owner to the current user
+          - Display Type is "List Button"
+          - Select Display Checkboxes (for Multi-Record Selection) option is selected
+          - Behavior is "Execute JavaScript"
+          - Content Source is "OnClick JavaScript"
+*/
+{!REQUIRESCRIPT("/soap/ajax/31.0/connection.js")} //adds the js library of AJAX toolkit
+{!REQUIRESCRIPT("/support/console/31.0/integration.js")} //adds the js library for SCC toolkit
+
+var userId = "{!$User.Id}"; //string for the current user's id
+var records = {!GETRECORDIDS($ObjectType.Case)}; //grabs the Case records that the user is requesting to update
+var updateRecords = []; //array for holding records that this code will ultimately update
+
+if (records[0] == null) { //if the button was clicked but there was no record selected
+     alert("Please select at least one record to update."); //alert the user that they didn't make a selection
+} else { //otherwise, there was a record selection
+     for (var i=0; i<records.length; i++) { //loop through all selected records
+          var update_Case = new sforce.SObject("Case"); //create a new sObject for storing updated record details
+          update_Case.Id = records[i]; //set the Id of the selected Case record
+          update_Case.OwnerID = userId; //set the owner to the current user
+          updateRecords.push(update_Case); //add the updated record to our array
+     }
+     result = sforce.connection.update(updateRecords); //update the selected records
+     if (result[0].success=='false') { //display any errors or refresh the page or tab if in console
+          alert(result[0].errors.message);
+     } else {
+          if (sforce.console.isInConsole()) {
+               sforce.console.refreshNavigationTab();
+          }
+          else {
+               window.location.reload();
+          }
+     }
+}
