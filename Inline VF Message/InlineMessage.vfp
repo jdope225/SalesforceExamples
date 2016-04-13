@@ -1,0 +1,7 @@
+<apex:page standardController="Entitlement" >
+    <apex:pageMessage title=""
+    rendered="{!LEN(Entitlement.Message__c) > 0}"
+    summary="{!Entitlement.Message__c}"
+    severity="info" strength="3"
+    escape="false"/>
+</apex:page>
