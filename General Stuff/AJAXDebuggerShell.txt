@@ -1,0 +1,1 @@
+/soap/ajax/15.0/debugshell.html

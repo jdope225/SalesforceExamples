@@ -1,0 +1,26 @@
+{!REQUIRESCRIPT('/soap/ajax/36.0/connection.js')}
+
+if('{!Case.IsClosed}' == true){
+	alert('This case is already closed.');
+}else{
+	var c = new sforce.SObject('Case');
+	c.Id = '{!Case.Id}';
+	c.Status = 'Closed';
+	var result = sforce.connection.update([c]);
+
+	if (result[0].success == 'false') {
+		alert(result[0].errors.message);
+	} else {
+		var cc = new sforce.SObject('CaseComment');
+		cc.ParentId = '{!Case.Id}';
+		cc.CommentBody = 'Closed by community user';
+		sforce.connection.emailHeader = {triggerUserEmail:true};
+		var result = sforce.connection.create([cc]);
+
+		if (result[0].success == 'false') {
+			alert(result[0].errors.message);
+		} else {
+			location.reload(true);
+		}
+	}	 
+}

@@ -1,0 +1,1 @@
+myVar = (c.Origin == 'something') || (c.Type == 'something') ? myTrueValue : myFalseValue;

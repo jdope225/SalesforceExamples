@@ -1,0 +1,21 @@
+<apex:page>
+    <apex:includeScript value="/support/console/36.0/integration.js"/>
+    
+    <script>
+        // Create event listener for tracking currently viewed case
+        var focusedTabObjectId = '';
+        var focusedTabId = '';
+        var onFocusedSubtabEventHandler = function (result) {
+            focusedTabObjectId = result.objectId;
+            console.log('focusedTabObjectId: ' + focusedTabObjectId);
+            focusedTabId = result.id;
+        };
+        sforce.console.onFocusedSubtab(onFocusedSubtabEventHandler);
+
+        var toggleFeedViewEventHandler = function() {
+            varOptionParam1 = 'efpViews_' + focusedTabObjectId;
+            Sfdc.EntityFeed.SelectPanel.selectOptionByName(varOptionParam1, 'DetailsView');
+        }
+        sforce.console.addEventListener('customShortcut.ToggleFeedView', toggleFeedViewEventHandler);            
+    </script>      
+</apex:page>

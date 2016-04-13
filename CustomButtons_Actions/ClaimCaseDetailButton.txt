@@ -1,0 +1,21 @@
+{!REQUIRESCRIPT("/soap/ajax/36.0/connection.js")}
+{!REQUIRESCRIPT("/support/console/36.0/integration.js")}
+
+var c = new sforce.SObject("Case");
+c.Id = '{!Case.Id}';
+c.OwnerId = '{!$User.Id}';
+c.Status = 'In Progress';
+var result = sforce.connection.update([c]);
+
+if (result[0].success=='false') {
+     alert(result[0].errors.message);
+} else {
+     if (sforce.console.isInConsole()) {
+          sforce.console.getEnclosingTabId(function(enclosingResult){
+               sforce.console.refreshSubtabById(enclosingResult.id, true)
+          });
+     }
+     else {
+          window.location.reload();
+     }
+}

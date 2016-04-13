@@ -1,0 +1,30 @@
+{!REQUIRESCRIPT("/soap/ajax/36.0/connection.js")}
+{!REQUIRESCRIPT("/support/console/36.0/integration.js")}
+
+var userId = "{!$User.Id}"; 
+var records = {!GETRECORDIDS($ObjectType.Case)}; 
+var status = 'In Progress';
+var arrRecordUpdate = []; 
+
+if (records[0] == null) { 
+	alert("Please select at least one row."); 
+} else { 
+	for (var i=0; i<records.length; i++) { 
+		var c = new sforce.SObject("Case"); 
+		c.Id = records[i];
+		c.OwnerID = userId;
+		c.Status = status;
+		arrRecordUpdate.push(c); 
+	}
+	result = sforce.connection.update(arrRecordUpdate);
+	if (result[0].success=='false') { 
+		alert(result[0].errors.message);
+	} else {
+		if (sforce.console.isInConsole()) {
+			sforce.console.refreshNavigationTab(); 
+          }
+		else {
+			window.location.reload();
+		}
+	}
+}
