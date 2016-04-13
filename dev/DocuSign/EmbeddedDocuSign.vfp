@@ -1,0 +1,42 @@
+<apex:page Controller="DocusignExampleController">
+    <style>
+        input[type="text"] {
+        	width: 400px;
+   	 	}
+    </style>
+    <apex:form >
+        <apex:pageBlock >
+            <apex:pageBlockSection columns="1">
+                <apex:inputText label="Integrator Key" value="{!integratorKey}"/>
+                <apex:inputText label="Username" value="{!username}"/>
+                <apex:inputText label="Password" value="{!password}"/>
+                <apex:inputText label="Recipient Name" value="{!recipientName}"/>
+                <apex:inputText label="Recipient Email" value="{!recipientEmail}"/>
+                <apex:inputText label="Template Id" value="{!templateId}"/>
+                <apex:inputText label="Role Name" value="{!roleName}"/>
+            </apex:pageBlockSection>
+            <apex:pageBlockButtons location="top">
+                <apex:commandButton value="Sign (Performs All Steps)" action="{!signDocument}" reRender="debugPanel"/>
+            	<apex:commandButton value="Login (Step 1)" action="{!login}" reRender="debugPanel"/>
+                <apex:commandButton value="Create Sign Request (Step 2)" action="{!createSignRequest}" reRender="debugPanel"/>
+                <apex:commandButton value="Show Embedded Page (Step 3)" action="{!showEmbeddedView}" reRender="debugPanel,debugStatus"/>
+                <apex:commandButton value="Show Envelope Status" action="{!showEnvelopeStatus}" reRender="debugStatus"/>
+                <apex:commandButton value="Show Signed Documents" action="{!showSignedDocuments}" reRender="debugPanel"/>
+            </apex:pageBlockButtons>
+            <apex:outputPanel id="debugStatus">
+                <apex:pageBlockSection title="Envelope Status" columns="1">
+                    <apex:outputText label="Envelope Status: " value="{!envelopeStatus}" />
+                </apex:pageBlockSection>
+            </apex:outputPanel>
+            <apex:outputPanel id="debugPanel">
+                <apex:pageBlockSection title="Debug Information" columns="1">
+                    <apex:outputText label="Request: " value="{!request}" /> 
+                    <apex:outputText label="Response: " value="{!response}" />
+                    <!--<apex:iframe src="{!iFrameUrl}" rendered="{!showIFrame}" height="1200px"/>-->
+                    <apex:iframe src="{!iFrameUrl}" rendered="true" height="1200px"/>
+                </apex:pageBlockSection>
+            </apex:outputPanel>
+        </apex:pageBlock>
+    </apex:form>
+    
+</apex:page>
