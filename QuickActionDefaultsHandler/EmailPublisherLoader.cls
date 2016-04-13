@@ -1,5 +1,6 @@
 global class EmailPublisherLoader implements QuickAction.QuickActionDefaultsHandler {
     global EmailPublisherLoader() {
+	
     }
     
     global void onInitDefaults(QuickAction.QuickActionDefaults[] defaults) {
