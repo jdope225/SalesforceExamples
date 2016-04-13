@@ -1,0 +1,16 @@
+CASE(1
+  
+  /*JIRA issue already created*/
+, IF(!ISBLANK(JIRA_Id__c) , 1, 0)
+, HYPERLINK("http://52.50.126.104/browse/" + JIRA_Id__c, "Open In JIRA", "_blank")
+ 
+  /*Required fields for escalation are missing*/
+, IF(ISBLANK(Escalation_Summary__c) /*|| ISBLANK(Escalation_Description__c)*/, 1, 0)
+, "Please enter an escalation summary and description prior to creating a JIRA issue."
+
+  /*Good to create JIRA issue*/
+, 1
+, HYPERLINK("http://52.50.126.104/plugins/servlet/customware/connector/issue/1/Case/create.action?id=" + Id + "&project=CSDTST&issueType=10100", "Create JIRA Issue", "_blank")
+
+ /*No match*/
+, "NA")
