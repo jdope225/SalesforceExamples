@@ -1,0 +1,52 @@
+<apex:page StandardController="Case" extensions="NewCaseFieldSetExt" action="{!findFieldSet}" >
+	<apex:includeScript value="/support/console/30.0/integration.js"/>
+    <style type="text/css">
+        textarea {
+           width: 50%;
+           height: 120px;
+           padding: 5px;
+        } 
+        input[type="text"]{
+            width: 470px;
+        }
+        span.lookupInput > Input, span.dateInput > Input{
+            width: 140px;
+        }
+   </style>
+
+    <script type="text/javascript">
+        if (sforce.console.isInConsole()) {
+            sforce.console.setTabTitle('New Case');
+        }
+		function closeTab(){          
+            if (sforce.console.isInConsole()) {
+                sforce.console.getEnclosingTabId(function(enclosingResult){
+					sforce.console.closeTab(enclosingResult.id);    
+				});
+            } else {
+                apexCancel();
+            }
+        }
+    </script>
+	<apex:form id="field_detail" >
+        <apex:pageblock title="New Case">
+            <apex:pageMessages />
+            <apex:repeat value="{!fieldSetList}" var="fs">
+                <apex:pageBlockSection title="{!fs}" columns="1">
+                    <apex:repeat value="{!fieldSetMap[fs]}" var="f">
+                        <apex:Inputfield value="{!currentCase[f.fieldPath]}" required="{!OR(f.required, f.dbrequired)}"/>
+                    </apex:repeat>
+                </apex:pageBlockSection>
+            </apex:repeat>
+            <apex:pageBlockButtons >
+                <apex:commandButton action="{!previous}" value="Previous" immediate="true"/>
+                <apex:commandButton action="{!save}" value="Save"/>
+                <apex:commandButton onclick="closeTab(); return false;" value="Cancel"/>
+            </apex:pageBlockButtons>
+            <apex:pageBlockSection title="Optional" columns="1" rendered="{!$ObjectType.Case.Fields.Assign_using_active_assignment_rules__c.Accessible}">
+                <apex:inputField value="{!Case.Assign_using_active_assignment_rules__c}" />
+            </apex:pageBlockSection>
+        </apex:pageblock>
+        <apex:actionFunction name="apexCancel" action="{!cancel}"/>
+    </apex:form>
+</apex:page>

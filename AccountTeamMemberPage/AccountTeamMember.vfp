@@ -1,0 +1,38 @@
+<apex:page standardcontroller="Account" extensions="AccountTeamMembersExt">
+    <apex:includeScript value="/support/console/30.0/integration.js"/>
+    <script type="text/javascript">
+        function go(s){          
+            if (sforce.console.isInConsole()) {
+                sforce.console.getEnclosingPrimaryTabId(function(enclosingResult){
+                    sforce.console.openSubtab(enclosingResult.id, s, true);
+                });
+            } else {
+                window.top.location.href = s;
+            }
+        }       
+    </script>
+    <apex:form id="ATM_Page">
+        <apex:pageBlock title="Account Success Team">
+            <apex:pageBlockTable value="{!atmList}" var="index">
+                <apex:column styleClass="actionColumn" width="6%" rendered="{!(OR(showDelete,showEdit))}">
+                    <apex:facet name="header">Action</apex:facet>
+                    <apex:commandLink value="Edit" styleClass="actionLink" onclick="go('/acc/salesteamedit.jsp?id={!index.Id}&retURL={!Account.Id}'); return false;" rendered="{!showEdit}"/>
+                    <apex:outputText rendered="{!(AND(showDelete,showEdit))}">&nbsp;|&nbsp;</apex:outputText>
+                    <apex:commandLink styleClass="actionLink" onclick="deleteLine('{!index.Id}'); return false;" rendered="{!showDelete}" >Del</apex:commandLink>
+                </apex:column>
+                <apex:column headerValue="Team Member">
+                    <apex:commandLink value="{!index.User.Name}" onclick="go('/{!index.UserId}'); return false;"/>
+                </apex:column>
+                <!--<apex:column value="{!index.UserId}" onclick="go('/{!index.UserId}'); return false;"/>-->
+                <apex:column value="{!index.TeamMemberRole}"/>
+            </apex:pageBlockTable>
+            <apex:pageBlockButtons location="top">
+                <apex:commandButton value="Add" onclick="go('/opp/salesteaminsert.jsp?id={!Account.Id}&retURL={!Account.Id}'); return false;" rendered="{!$Setup.AccountTeamSettings__c.Add__c}" />
+                <apex:commandButton value="Mass Update" onclick="go('/acc/salesteamreassignwizard.jsp?reassignid=Account&retURL={!Account.Id}'); return false;" rendered="{!$Setup.AccountTeamSettings__c.MassUpdate__c}"/>
+                <apex:commandButton value="View History" onclick="go('/{!$Label.objReport_AccountTeamUpdates}?pv0={!LEFT(Account.Id, 15)}&retURL={!Account.Id}'); return false;" rendered="{!$Setup.AccountTeamSettings__c.ViewHistory__c}" />
+            </apex:pageBlockButtons>
+        </apex:pageBlock>
+        <apex:actionFunction name="deleteLine" action="{!deleteRow}" reRender="ATM_Page">
+        	<apex:param value="" name="atmId" assignTo="{!recId}" />
+        </apex:actionFunction>
+    </apex:form
