@@ -1,4 +1,4 @@
-<apex:page>
+<apex:page >
     <apex:includeScript value="/support/console/36.0/integration.js"/>
     
     <script>
@@ -11,11 +11,17 @@
             focusedTabId = result.id;
         };
         sforce.console.onFocusedSubtab(onFocusedSubtabEventHandler);
-
-        var toggleFeedViewEventHandler = function() {
-            varOptionParam1 = 'efpViews_' + focusedTabObjectId;
-            Sfdc.EntityFeed.SelectPanel.selectOptionByName(varOptionParam1, 'DetailsView');
+        
+        var openAllTabsPrimaryTabEventHandler = function() {
+            if(sforce.console.isInConsole()){
+                sforce.console.openPrimaryTab(null,'/home/showAllTabs.jsp', true);
+            }
         }
-        sforce.console.addEventListener('customShortcut.ToggleFeedView', toggleFeedViewEventHandler);            
+		
+//        window.onload = function() {
+//          openAllTabsPrimaryTabEventHandler();
+//        };
+		
+        sforce.console.addEventListener('customShortcut.openAllTabsPrimaryTab', openAllTabsPrimaryTabEventHandler);            
     </script>      
 </apex:page>

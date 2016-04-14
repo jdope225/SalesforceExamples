@@ -1,0 +1,45 @@
+trigger ContactTrigger on Contact (before insert, before update, before delete, after insert, after update, after delete) {
+    ContactTriggerHandler.onTrigger(
+        Trigger.new, Trigger.old, Trigger.newMap, Trigger.oldMap,
+        Trigger.isBefore, Trigger.isAfter,
+        Trigger.isInsert, Trigger.isUpdate, Trigger.isDelete
+    );
+}
+
+public without sharing class ContactTriggerHandler {
+
+	// flag to skip whole trigger execution
+    public static Boolean skipTrigger = false;
+	
+	
+	/*
+    * Main method to dispatch incoming call further
+    */
+    public static void onTrigger(List<Contact> newList, List<Contact> oldList, Map<Id, Contact> newMap, Map<Id, Contact> oldMap,
+                                Boolean isBefore, Boolean isAfter, Boolean isInsert, Boolean isUpdate, Boolean isDelete) {
+								
+		if (skipTrigger == true) {
+			return;
+		}
+		
+		if (isBefore) {
+				
+			if (isInsert) {
+				
+			} else if (isUpdate) {
+				
+			} else if (isDelete) {
+				
+			}
+		} else if (isAfter) {
+				
+			if (isInsert) {
+				
+			} else if (isUpdate) {
+				
+			} else if (isDelete) {
+				
+			}
+		}
+	}
+}
