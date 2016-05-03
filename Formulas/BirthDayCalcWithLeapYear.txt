@@ -1,0 +1,43 @@
+/*Date contact turns 26, taking leap year into account*/
+IF(
+	(
+		/*Is Leap year? */
+		MONTH(Birthdate) = 2
+		&& 
+		DAY(Birthdate) = 29
+		&& 
+		(
+			MOD(YEAR(Birthdate), 400) = 0 
+			|| 
+			(
+				MOD(YEAR(Birthdate), 4) = 0 
+				&& 
+				MOD(YEAR(Birthdate), 100) != 0
+			)
+		)
+	)
+	, DATE( YEAR( Birthdate ) + 26, 3, 1)
+	, DATE( YEAR( Birthdate ) + 26, MONTH( Birthdate ), DAY( Birthdate ) )
+)
+
+
+/*Date contact turns 55, taking leap year into account*/
+IF(
+	(
+		/*Is Leap year? */
+		MONTH(Birthdate) = 2
+		&& 
+		DAY(Birthdate) = 29
+		&& 
+		(
+			MOD(YEAR(Birthdate), 400) = 0 
+			|| 
+			(
+				MOD(YEAR(Birthdate), 4) = 0 
+				&& MOD(YEAR(Birthdate), 100) != 0
+			)
+		)
+	)
+	, DATE( YEAR( Birthdate ) + 55, 3, 1)
+	, DATE( YEAR( Birthdate ) + 55, MONTH( Birthdate ), DAY( Birthdate ) )
+)

@@ -1,0 +1,73 @@
+CASE(1 
+
+/*No Case_Reason__c */ 
+, IF 
+	( 
+		ISBLANK(TEXT(Case_Reason__c)) 
+		, 1 
+		, 0 
+	) 
+	, null 
+
+/*Platform Issue Support */ 
+	, IF 
+	( 
+		LOWER(TEXT(Case_Reason__c)) = "platform issue" 
+		, 1 
+		, 0 
+	) 
+	, "Platform Issue Support" 
+
+/*Platform Support - doesn't exist yet... */
+	, IF 
+	( 
+		LOWER(TEXT(Case_Reason__c)) = "platform support" 
+		, 1 
+		, 0 
+	) 
+	, "Platform Support" 
+ 
+
+/*Platform Assistance */ 
+	, IF 
+	( 
+		CONTAINS 
+		( 
+			"platform assistance:developer assistance:training request"
+			, LOWER(TEXT(Case_Reason__c))
+		) 
+		, 1 
+		, 0 
+		) 
+	, "Platform Assistance" 
+
+/*Platform Service Request */ 
+	, IF 
+	( 
+		CONTAINS 
+		( 
+			"configuration change:create csr:install ssl certificate:site setup:user access request:database as a service:cdn setup:enable basic authentication:disable basic authentication:install ssl certificate:instance setup:recrawl site:access:service request" 
+			, LOWER(TEXT(Case_Reason__c))
+		) 
+		, 1 
+		, 0 
+	) 
+	, "Platform Service Request" 
+
+
+/*Non-Billable Service Request */ 
+, IF 
+	( 
+		CONTAINS 
+		( 
+			"service correction:transfer to services:configuration correction:product enhancement" 
+			, LOWER(TEXT(Case_Reason__c))
+		) 
+		, 1 
+		, 0 
+	) 
+	, "Non-Billable Service Request" 
+
+/*No match*/ 
+	, "Non-Billable Service Request"
+)

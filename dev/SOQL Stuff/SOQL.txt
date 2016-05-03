@@ -1,0 +1,22 @@
+LifeChangingEventBatchable.runBatch();
+//ISSIIntegrationSendPlanSelectBatchable.runBatch(ApplicationSettings.issiPlanSelectionBatchSize);
+
+/**************************************************************************
+Tooling API Stuff
+/*************************************************************************/
+//EntityDefinition = Object
+//FieldDefinition = Field
+
+SELECT DeveloperName, Fields, CustomFields, IsTriggerable FROM EntityDefinition
+SELECT DeveloperName, (SELECT DeveloperName, LastModifiedDate, LastModifiedBy.Name FROM Fields) FROM EntityDefinition WHERE QualifiedApiName = 'Account'
+
+
+SELECT EntityDefinition.QualifiedAPIName,
+QualifiedApiName,
+LastModifiedDate,
+LastModifiedBy.Name
+FROM FieldDefinition
+WHERE (EntityDefinition.QualifiedAPIName in ('Account', 'Opportunity', 'Contact', 'Asset', 'Case', 'Entitlement') AND QualifiedAPIName Like '%__c' AND LastModifiedDate > 2016-03-21T00:00:00.000+0000)
+ORDER BY LastModifiedDate DESC
+
+/*************************************************************************/
