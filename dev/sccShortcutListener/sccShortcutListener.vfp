@@ -2,7 +2,7 @@
     <apex:includeScript value="/support/console/36.0/integration.js"/>
     
     <script>
-        // Create event listener for tracking currently viewed case
+        // Create event listener for tracking currently viewed record
         var focusedTabObjectId = '';
         var focusedTabId = '';
         var onFocusedSubtabEventHandler = function (result) {
@@ -17,11 +17,20 @@
                 sforce.console.openPrimaryTab(null,'/home/showAllTabs.jsp', true);
             }
         }
-		
+        
+        var openSetupPrimaryTabEventHandler = function() {
+            if(sforce.console.isInConsole()){
+                //sforce.console.openPrimaryTab(null,'/setup/forcecomHomepage.apexp', true);
+                var win = window.open('/setup/forcecomHomepage.apexp', '_blank');
+                if(win) {win.focus();}
+            }
+        }
+        
 //        window.onload = function() {
 //          openAllTabsPrimaryTabEventHandler();
 //        };
-		
-        sforce.console.addEventListener('customShortcut.openAllTabsPrimaryTab', openAllTabsPrimaryTabEventHandler);            
+        
+        sforce.console.addEventListener('customShortcut.openAllTabsPrimaryTab', openAllTabsPrimaryTabEventHandler);         
+        sforce.console.addEventListener('customShortcut.openSetupPrimaryTab', openSetupPrimaryTabEventHandler);
     </script>      
 </apex:page>
