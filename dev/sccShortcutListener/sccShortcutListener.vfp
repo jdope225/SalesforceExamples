@@ -12,17 +12,36 @@
         };
         sforce.console.onFocusedSubtab(onFocusedSubtabEventHandler);
         
+        //open All Tabs page in a new console tab...
         var openAllTabsPrimaryTabEventHandler = function() {
             if(sforce.console.isInConsole()){
                 sforce.console.openPrimaryTab(null,'/home/showAllTabs.jsp', true);
             }
         }
         
+        //open Setup page in a new browser tab...
         var openSetupPrimaryTabEventHandler = function() {
             if(sforce.console.isInConsole()){
-                //sforce.console.openPrimaryTab(null,'/setup/forcecomHomepage.apexp', true);
                 var win = window.open('/setup/forcecomHomepage.apexp', '_blank');
                 if(win) {win.focus();}
+            }
+        }
+        
+        //open Salesforce Workbench in a new browser tab...
+        var openWorkbenchEventHandler = function() {
+            if(sforce.console.isInConsole()){
+                var win = window.open('https://workbench.developerforce.com', '_blank');
+                if(win) {win.focus();}
+            }
+        }
+        
+        //open standard Salesforce url of tab...
+        var openStandardUrlEventHandler = function (){
+            if(sforce.console.isInConsole()){
+                sforce.console.getTabLink(sforce.console.TabLink.SALESFORCE_URL, null, function(result){
+                    var win = window.open(result.tabLink, '_blank');
+                    if(win) {win.focus();}
+                });
             }
         }
         
@@ -32,5 +51,7 @@
         
         sforce.console.addEventListener('customShortcut.openAllTabsPrimaryTab', openAllTabsPrimaryTabEventHandler);         
         sforce.console.addEventListener('customShortcut.openSetupPrimaryTab', openSetupPrimaryTabEventHandler);
+        sforce.console.addEventListener('customShortcut.openWorkbench', openWorkbenchEventHandler);
+        sforce.console.addEventListener('customShortcut.openStandardUrl', openStandardUrlEventHandler);
     </script>      
 </apex:page>
